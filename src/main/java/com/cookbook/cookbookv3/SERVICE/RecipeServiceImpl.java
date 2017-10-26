@@ -29,9 +29,9 @@ public class RecipeServiceImpl {
         return rr.save(saved);
     }
 
-    public Recipe updateRecipe(String n, String i, String q){
+    public Recipe updateRecipe(String n, String i){
         Recipe r = rr.findOne(n);
-        r.addIngredient(i,q);
+        r.addIngredient(i);
         rr.save(r);
         return r;
 
@@ -40,9 +40,9 @@ public class RecipeServiceImpl {
     public Recipe updateRecipeValue(String n, String i, String q){
         Recipe r = rr.findOne(i);
         if(n.equals("time")){
-            r.setTime(Integer.parseInt(q));
+            r.setTime(q);
         }else if(n.equals("persons")){
-            r.setPersons(Integer.parseInt(q));
+            r.setnbPerson(q);
         }
         rr.save(r);
         return r;
@@ -51,13 +51,8 @@ public class RecipeServiceImpl {
 
     public List<Recipe> filter(String ingredient){
         List<Recipe> ls = this.findAllRecipe();
-        for (Recipe r:ls){
-            if(r.getIngredients().containsKey(ingredient)){
 
-            }else {
-                ls.remove(r);
-            }
-        }
+
     return ls;
     }
 }

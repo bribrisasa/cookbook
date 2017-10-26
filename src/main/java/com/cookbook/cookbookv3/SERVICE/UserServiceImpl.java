@@ -29,11 +29,11 @@ public class UserServiceImpl {
         return userRepository.findOne(userName);
     }
 
-    public boolean login(String userName,String pass){
-        User u = userRepository.findOne(userName);
+    public boolean login(User user){
+        User u = userRepository.findOne(user.getId());
         if(u == null){
             return false;
-        } else if(u.getPassword() != pass){
+        } else if(u.getPassword() != user.getPassword()){
             return false;
         } else
             return true;

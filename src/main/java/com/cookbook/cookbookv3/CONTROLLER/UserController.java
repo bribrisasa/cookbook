@@ -5,10 +5,7 @@ import com.cookbook.cookbookv3.MODEL.User;
 import com.cookbook.cookbookv3.REPOSITORY.UserRepository;
 import com.cookbook.cookbookv3.SERVICE.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -42,9 +39,9 @@ public class UserController {
         return this.userService.findByUserName(un);
     }
 
-    @RequestMapping(value = "/login/{usN}/{pass}", method = RequestMethod.POST)
-    public List<User> loginUser(@PathVariable("usN") String un,@PathVariable("pass") String pass){
-        if (this.userService.login(un,pass)) {
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public List<User> loginUser(@RequestBody User un){
+        if (this.userService.login(un)) {
             return this.allUser();
         }else {
             return null;

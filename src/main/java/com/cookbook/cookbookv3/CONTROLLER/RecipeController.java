@@ -6,14 +6,12 @@ import com.cookbook.cookbookv3.MODEL.User;
 import com.cookbook.cookbookv3.SERVICE.RecipeServiceImpl;
 import com.cookbook.cookbookv3.SERVICE.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/recipe")
 public class RecipeController {
@@ -21,22 +19,20 @@ public class RecipeController {
     @Autowired
     RecipeServiceImpl recipeService;
 
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    @GetMapping("/all")
     public List<Recipe> allRecipe(){
         return recipeService.findAllRecipe();
     }
 
-    @RequestMapping(value = "/add/{name}/{time}/{person}", method = RequestMethod.POST)
-    public List<Recipe> addRecipe(@PathVariable("name") String name,@PathVariable("time") String time,@PathVariable("person") String person){
-        Recipe u = new Recipe(name,time,person);
-      //  Recipe r = new Recipe();
-        recipeService.addRecipe(u);
-        return this.allRecipe();
+    @PostMapping("/add")
+    public Recipe addRecipe(@RequestBody Recipe newRecipe){
+        recipeService.addRecipe(newRecipe);
+        return newRecipe;
     }
 
-    @RequestMapping(value = "/addIngredient/{name}/{ingredient}/{quantite}", method = RequestMethod.POST)
-    public Recipe addIngredientRecipe(@PathVariable("name") String name,@PathVariable("ingredient") String ingredient,@PathVariable("quantite") String quantite){
-        return recipeService.updateRecipe(name,ingredient,quantite);
+    @RequestMapping(value = "/addIngredient/{name}/{ingredient}", method = RequestMethod.POST)
+    public Recipe addIngredientRecipe(@PathVariable("name") String name,@PathVariable("ingredient") String ingredient){
+        return recipeService.updateRecipe(name,ingredient);
     }
 
     @RequestMapping(value = "/updateRecipe/{name}/{value}/{newTime}", method = RequestMethod.POST)
@@ -51,10 +47,11 @@ public class RecipeController {
         return this.allRecipe();
     }
 
-    @RequestMapping(value = "/findOne/{usN}", method = RequestMethod.POST)
+    @RequestMapping(value = "/findOne/{usN}", method = RequestMethod.GET)
     public Recipe findRecipe(@PathVariable("usN") String un){
         return this.recipeService.findByName(un);
     }
+
 
     @RequestMapping(value = "/filter/{ingredient}", method = RequestMethod.POST)
     public List<Recipe> recipesFiltered(@PathVariable("ingredient") String ingredient){
