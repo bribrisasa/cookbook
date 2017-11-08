@@ -55,4 +55,8 @@ public class RecipeServiceImpl {
 
     return ls;
     }
+
+    public void editRecipe(Recipe newRecipe) {
+        rr.save(newRecipe);
+    }
 }

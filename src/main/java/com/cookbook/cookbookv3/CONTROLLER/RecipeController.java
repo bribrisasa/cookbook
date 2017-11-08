@@ -30,6 +30,12 @@ public class RecipeController {
         return newRecipe;
     }
 
+    @PostMapping("/edit")
+    public Recipe editRecipe(@RequestBody Recipe newRecipe){
+        recipeService.editRecipe(newRecipe);
+        return newRecipe;
+    }
+
     @RequestMapping(value = "/addIngredient/{name}/{ingredient}", method = RequestMethod.POST)
     public Recipe addIngredientRecipe(@PathVariable("name") String name,@PathVariable("ingredient") String ingredient){
         return recipeService.updateRecipe(name,ingredient);
