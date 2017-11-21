@@ -1,6 +1,7 @@
 package com.cookbook.cookbookv3.CONTROLLER;
 
 
+import com.cookbook.cookbookv3.MODEL.Recipe;
 import com.cookbook.cookbookv3.MODEL.User;
 import com.cookbook.cookbookv3.REPOSITORY.UserRepository;
 import com.cookbook.cookbookv3.SERVICE.UserServiceImpl;
@@ -16,22 +17,28 @@ public class UserController {
     @Autowired
     UserServiceImpl userService;
 
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public List<User> allUser(){
-        return userService.findAll();
+    @GetMapping(value = "/profil/{id}")
+    public User profil(@PathVariable String id){
+        return this.userService.findById(id);
     }
 
-    @RequestMapping(value = "/add/{un}/{em}/{ps}", method = RequestMethod.POST)
-    public List<User> addUser(@PathVariable("un") String un,@PathVariable("em") String em,@PathVariable("ps") String ps){
-        User u = new User(un,em,ps);
+    @CrossOrigin
+    @PostMapping(value = "/add")
+    public User addUser(@RequestBody User u){
         userService.addUser(u);
-        return this.allUser();
+        return u;
+    }
+
+    @GetMapping(value = "/all")
+    public List<User> allUser(){
+        return userService.findAll();
+
     }
 
     @RequestMapping(value = "/delete/{usN}", method = RequestMethod.POST)
     public List<User> deleteUser(@PathVariable("usN") String un){
         userService.deleteUser(un);
-        return this.allUser();
+        return null;
     }
 
     @RequestMapping(value = "/findOne/{usN}", method = RequestMethod.POST)
@@ -39,14 +46,16 @@ public class UserController {
         return this.userService.findByUserName(un);
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public List<User> loginUser(@RequestBody User un){
-        if (this.userService.login(un)) {
-            return this.allUser();
-        }else {
-            return null;
-            }
+    @GetMapping(value = "/getId/{username}/{password}")
+    public User loginUser(@PathVariable("username") String username, @PathVariable("password") String password){
+        User user = this.userService.login(username,password);
+        return user;
+
         }
 
+    @PostMapping(value = "/addFavorite")
+    public void addFavoriteRecipe(@RequestBody Recipe recipe,@RequestBody User user){
+        this.userService.addFavoriteRecipe(user,recipe);
+    }
 
 }

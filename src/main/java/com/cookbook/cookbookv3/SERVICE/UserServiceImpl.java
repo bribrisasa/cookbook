@@ -1,5 +1,6 @@
 package com.cookbook.cookbookv3.SERVICE;
 
+import com.cookbook.cookbookv3.MODEL.Recipe;
 import com.cookbook.cookbookv3.MODEL.User;
 import com.cookbook.cookbookv3.REPOSITORY.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,16 +27,38 @@ public class UserServiceImpl {
     }
 
     public User findByUserName(String userName){
-        return userRepository.findOne(userName);
+        List<User> users = userRepository.findAll();
+        for (User user : users) {
+            if (user.getUsername().equals(userName)) {
+                return user;
+            }
+        }
+        return null;
     }
 
-    public boolean login(User user){
-        User u = userRepository.findOne(user.getId());
+    public User login(String username,String pass){
+        User u = this.findByUserName(username);
+
+
         if(u == null){
-            return false;
-        } else if(u.getPassword() != user.getPassword()){
-            return false;
+            return u;
+        } else if(!u.getPassword().equals(pass)){
+            return u;
         } else
-            return true;
+            return u;
+    }
+
+   /* @PreAuthorize("hasRole('USER')")
+    @PostMapping("/login")
+    public ResponseEntity login() {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }*/
+
+    public User findById(String id){
+        return userRepository.findOne(id);
+    }
+
+    public void addFavoriteRecipe(User user, Recipe recipe) {
+
     }
 }
