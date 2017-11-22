@@ -1,50 +1,56 @@
 package com.cookbook.cookbookv3.MODEL;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Document(collection = "Recipe")
+@Entity
 public class Recipe {
+
     @Id
-    private String id;
-    private String name;
+    @GeneratedValue
+    @Column(name = "id")
+    private int id;
+    private String title;
     private String photo;
     private String time;
-    private String nbPerson;
-    private List<String> ingredients;
+    private String serving;
+    private int author;
+  //  private List<String> ingredients;
     private String description;
 
-    public Recipe(String name, String photo, List<String> ingredients, String time, String persons, String description) {
-        this.name = name;
+    public Recipe(String title, String photo, List<String> ingredients, String time, String persons, String description) {
+        this.title = title;
         this.photo = photo;
-        this.ingredients = ingredients;
+    //    this.ingredients = ingredients;
         this.time = time;
-        this.nbPerson = persons;
+        this.serving = persons;
         this.description = description;
     }
 
-    public Recipe(String name,String time,String persons){
-        this.name = name;
+    public Recipe(String title,String time,String persons){
+        this.title = title;
         this.photo = "http://www.fondecranmagique.com/cuisine/pomme/1320427589.jpg";
         this.time = time;
-        this.nbPerson = persons;
-        this.ingredients = new ArrayList<String>();
+        this.serving = persons;
+   //     this.ingredients = new ArrayList<String>();
     }
 
     public Recipe(){
 
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -56,15 +62,15 @@ public class Recipe {
         this.photo = photo;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String name) {
+        this.title = name;
     }
 
-    public List<String> getIngredients() {
+  /*  public List<String> getIngredients() {
         return ingredients;
     }
 
@@ -74,7 +80,7 @@ public class Recipe {
 
     public void addIngredient(String k){
         this.ingredients.add(k);
-    }
+    } */
 
     public String getTime() {
         return time;
@@ -84,12 +90,12 @@ public class Recipe {
         this.time = time;
     }
 
-    public String getnbPerson() {
-        return nbPerson;
+    public String getServing() {
+        return serving;
     }
 
-    public void setnbPerson(String persons) {
-        this.nbPerson = persons;
+    public void setServing(String persons) {
+        this.serving = persons;
     }
 
     public String getDescription() {
@@ -100,8 +106,16 @@ public class Recipe {
         this.description = description;
     }
 
+    public int getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(int author) {
+        this.author = author;
+    }
+
     public String toString(){
-        String s =  "Recipe for : "+this.name+"\n";
+        String s =  "Recipe for : "+this.title+"\n";
 
             return s;
         }

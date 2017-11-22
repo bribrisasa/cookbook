@@ -1,22 +1,29 @@
 package com.cookbook.cookbookv3.MODEL;
 
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.hibernate.annotations.Table;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Document(collection = "User")
-public class User {
+@Entity
+public class User{
 
     @Id
-    private String id;
+    @GeneratedValue
+    @Column(name = "id")
+    private int id;
     private String username;
     private String photo;
     private String password;
-    private List<Recipe> favoritesRecipes;
+
+    @OneToMany(targetEntity=User.class)
     private List<User> friends;
+
+    @OneToMany(targetEntity=Recipe.class)
+    private List<Recipe> favorite;
+
 
 
     public User(){}
@@ -24,8 +31,9 @@ public class User {
         this.username = username;
         this.photo = photo;
         this.password = password;
-        this.favoritesRecipes = new ArrayList<Recipe>();
         this.friends = new ArrayList<User>();
+        this.favorite = new ArrayList<Recipe>();
+
 
     }
 
@@ -35,11 +43,11 @@ public class User {
         this.setPassword(password);
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -67,14 +75,6 @@ public class User {
         this.photo = photo;
     }
 
-    public List<Recipe> getFavoritesRecipes() {
-        return favoritesRecipes;
-    }
-
-    public void setFavoritesRecipes(List<Recipe> favoritesRecipes) {
-        this.favoritesRecipes = favoritesRecipes;
-    }
-
     public List<User> getFriends() {
         return friends;
     }
@@ -83,27 +83,15 @@ public class User {
         this.friends = friends;
     }
 
-    public void addFriends(User friend){
-        this.friends.add(friend);
+    public List<Recipe> getFavorite() {
+        return favorite;
     }
 
-    public void deleteFriends(User friend){
-        this.friends.remove(friend);
+    public void setFavorite(List<Recipe> favorite) {
+        this.favorite = favorite;
     }
 
-    public int getNbFriends(){
-        return this.friends.size();
-    }
-
-    public void addFavoriteRecipe(Recipe recipe){
-        this.favoritesRecipes.add(recipe);
-    }
-
-    public void deleteFavoriteRecipe(Recipe recipe){
-        this.favoritesRecipes.remove(recipe);
-    }
-
-    public int getNbFavoriteRecipe(){
-        return this.favoritesRecipes.size();
+    public void addFriend(User u){
+        this.friends.add(u);
     }
 }

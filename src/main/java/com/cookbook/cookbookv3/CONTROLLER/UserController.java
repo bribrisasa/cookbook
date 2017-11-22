@@ -3,7 +3,6 @@ package com.cookbook.cookbookv3.CONTROLLER;
 
 import com.cookbook.cookbookv3.MODEL.Recipe;
 import com.cookbook.cookbookv3.MODEL.User;
-import com.cookbook.cookbookv3.REPOSITORY.UserRepository;
 import com.cookbook.cookbookv3.SERVICE.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,19 +17,24 @@ public class UserController {
     UserServiceImpl userService;
 
     @GetMapping(value = "/profil/{id}")
-    public User profil(@PathVariable String id){
+    public User profil(@PathVariable Integer id){
         return this.userService.findById(id);
     }
 
-    @CrossOrigin
     @PostMapping(value = "/add")
     public User addUser(@RequestBody User u){
         userService.addUser(u);
         return u;
     }
 
+    @PostMapping(value = "/addFriends/{uo}/{uf}")
+    public User addFriend(@PathVariable int uo, @PathVariable int uf){
+        return userService.addFriend(uo,uf);
+         //userService.findById(uo);
+    }
+
     @GetMapping(value = "/all")
-    public List<User> allUser(){
+    public Iterable<User> allUser(){
         return userService.findAll();
 
     }
@@ -55,7 +59,11 @@ public class UserController {
 
     @PostMapping(value = "/addFavorite")
     public void addFavoriteRecipe(@RequestBody Recipe recipe,@RequestBody User user){
-        this.userService.addFavoriteRecipe(user,recipe);
+      //  this.userService.addFavoriteRecipe(user,recipe);
     }
 
+    @GetMapping(value = "/test")
+    public Iterable<User> test(){
+       return this.userService.findAll();
+    }
 }
