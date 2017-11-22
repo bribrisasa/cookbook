@@ -1,6 +1,7 @@
 package com.cookbook.cookbookv3.SERVICE;
 
 import com.cookbook.cookbookv3.MODEL.User;
+import com.cookbook.cookbookv3.REPOSITORY.RecipeRepository;
 import com.cookbook.cookbookv3.REPOSITORY.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,8 @@ public class UserServiceImpl {
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    RecipeRepository recipeRepository;
 
     public void addUser(User u){
         userRepository.save(u);
@@ -56,6 +59,13 @@ public class UserServiceImpl {
             u.addFriend(this.findById(o));
             userRepository.save(u);
             return u;
+    }
+
+    public User addRecipe(int i, int o){
+        User u = this.findById(i);
+        u.addRecipe(recipeRepository.findOne(o));
+        userRepository.save(u);
+        return u;
     }
 
 }

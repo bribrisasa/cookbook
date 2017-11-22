@@ -33,6 +33,12 @@ public class UserController {
          //userService.findById(uo);
     }
 
+    @PostMapping(value = "/addRecipe/{uo}/{uf}")
+    public User addRecipe(@PathVariable int uo, @PathVariable int uf){
+        return userService.addRecipe(uo,uf);
+        //userService.findById(uo);
+    }
+
     @GetMapping(value = "/all")
     public Iterable<User> allUser(){
         return userService.findAll();

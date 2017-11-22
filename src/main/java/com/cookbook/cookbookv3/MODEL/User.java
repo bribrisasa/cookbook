@@ -94,4 +94,8 @@ public class User{
     public void addFriend(User u){
         this.friends.add(u);
     }
+
+    public void addRecipe(Recipe r){
+        this.favorite.add(r);
+    }
 }
