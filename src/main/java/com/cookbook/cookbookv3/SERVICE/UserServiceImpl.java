@@ -1,7 +1,9 @@
 package com.cookbook.cookbookv3.SERVICE;
 
+import com.cookbook.cookbookv3.MODEL.Token;
 import com.cookbook.cookbookv3.MODEL.User;
 import com.cookbook.cookbookv3.REPOSITORY.RecipeRepository;
+import com.cookbook.cookbookv3.REPOSITORY.TokenRepository;
 import com.cookbook.cookbookv3.REPOSITORY.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,8 @@ public class UserServiceImpl {
     UserRepository userRepository;
     @Autowired
     RecipeRepository recipeRepository;
+    @Autowired
+    TokenRepository tokenRepository;
 
     public void addUser(User u){
         userRepository.save(u);
@@ -45,9 +49,9 @@ public class UserServiceImpl {
         if(u == null){
             return u;
         } else if(!u.getPassword().equals(pass)){
-            return null;
+            return u;
         } else
-            return null;
+            return u;
     }
 
     public User findById(int id){
@@ -66,6 +70,10 @@ public class UserServiceImpl {
         u.addRecipe(recipeRepository.findOne(o));
         userRepository.save(u);
         return u;
+    }
+
+    public void save(Token t){
+        tokenRepository.save(t);
     }
 
 }

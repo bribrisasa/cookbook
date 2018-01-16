@@ -17,6 +17,7 @@ public class User{
     private String username;
     private String photo;
     private String password;
+    private String token;
 
     @OneToMany(targetEntity=User.class)
     private List<User> friends;
@@ -97,5 +98,17 @@ public class User{
 
     public void addRecipe(Recipe r){
         this.favorite.add(r);
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
